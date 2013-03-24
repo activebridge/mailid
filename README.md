@@ -1,4 +1,4 @@
-<h1>Mailid</h1>
+<h1>Mailid</h1> (in the development)
 
 <h2>Installation</h2>
 Add to your Gemfile:
