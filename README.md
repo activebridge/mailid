@@ -4,7 +4,7 @@
 Add to your Gemfile:
 
 ```ruby
-gem 'mailboxer'
+gem 'mailid'
 ```
 
 Then run:
@@ -40,10 +40,10 @@ a.create_conversation(b, "subject", conversation.forward_body)
 
 ```ruby
 #user wants add conversation to archive
-user.mark_as_archived(conversation)
+a.mark_as_archived(conversation)
 
 #user wants remove conversation from archive
-user.unarchive(conversation)
+a.unarchive(conversation)
 ```
 
 <h2>How can I get my conversations?</h2>
