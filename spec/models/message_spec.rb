@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe Message do
-  let(:message) { FactoryGirl.create(:message) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:friend) { FactoryGirl.create(:user) }
+  let(:conversation) { FactoryGirl.create(:conversation, recipients: [user, friend]) }
+  let(:message) { FactoryGirl.create(:message, conversation: conversation) }
 
   context 'associations' do
     it { should have_many(:receipts) }

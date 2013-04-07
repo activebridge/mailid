@@ -11,6 +11,5 @@ describe Receipt do
   context 'validation' do
     it { should validate_presence_of(:message_type) }
     it { should validate_presence_of(:read) }
-    it { should validate_presence_of(:trashed) }
   end
 end

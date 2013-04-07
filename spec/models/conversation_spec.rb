@@ -1,10 +1,12 @@
 require 'spec_helper'
 
 describe Conversation do
-  let(:conversation) { FactoryGirl.create(:conversation) }
-  let(:message) { FactoryGirl.create(:message) }
-  let(:sender_receipt) { FactoryGirl.create(:receipt, message_type: 'inbox') }
-  let(:recipient_receipt) { FactoryGirl.create(:receipt, message_type: 'sentbox') }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:friend) { FactoryGirl.create(:user) }
+  let(:conversation) { FactoryGirl.create(:conversation, recipients: [user, friend]) }
+  let(:message) { FactoryGirl.create(:message, conversation: conversation) }
+  let(:sender_receipt) { FactoryGirl.create(:receipt, message_type: 'inbox', user: user, message: message) }
+  let(:receiver_receipt) { FactoryGirl.create(:receipt, message_type: 'sentbox', user: friend, message: message) }
   let(:conversation_data) do
     {
       body:     'body',
@@ -32,6 +34,13 @@ describe Conversation do
     it 'should return last message of conversation' do
       conversation.messages << message
       expect(conversation.last_message).to eq(message)
+    end
+
+    it 'should has a conversation creator' do
+      message.receipts << sender_receipt
+      message.receipts << receiver_receipt
+      conversation.messages << message
+      expect(conversation.creator).to eq(friend)
     end
   end
 end
