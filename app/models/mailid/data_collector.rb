@@ -11,13 +11,11 @@ module Mailid
       creation_time = Time.now
       receipts << { message_type: 'sentbox',
                     read: true,
-                    trashed: false,
                     created_at: creation_time,
                     user: sender }
       @recipients.each do |recipient|
         receipts << { message_type: 'inbox',
                       read: false,
-                      trashed: false,
                       created_at: creation_time,
                       user: recipient }
       end

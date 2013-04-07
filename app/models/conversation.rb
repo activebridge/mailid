@@ -7,13 +7,15 @@ class Conversation
   has_and_belongs_to_many :users, class_name: 'User', inverse_of: :conversations
   has_many :messages, dependent: :delete
   has_one :archived_conversation
+  has_one :trashed_conversation
 
-  validates :subject, presence: true
+  validates :subject, :recipients, presence: true
   validates :messages, associated: true
 
   alias_method :error_messages, :errors
 
   attr_reader :user_tokens
+  attr_accessor :recipients
 
   def last_message
     messages.last

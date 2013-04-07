@@ -24,11 +24,20 @@ module Mailid
       end
 
       def conversations_by(message_type)
-        no_archived(conversations.select { |conv| conv if conv.last_message.receipts.where(message_type: message_type, user: self).any? })
+        tidy_conversations(conversations.select { |conv| conv.last_message.receipts.where(message_type: message_type, user: self).any? })
       end
 
       def no_archived(conversations)
-        conversations.select { |conversation| conversation unless is_archived?(conversation) }
+        conversations.select { |conversation| !is_archived?(conversation) }
+      end
+
+      def no_trashed(conversations)
+        conversations.select { |conversation| !is_trashed?(conversation) }
+      end
+
+      def tidy_conversations(conversations)
+        conversations = no_archived(conversations)
+        no_trashed(conversations)
       end
 
       def mark_as_archived(conversation)
@@ -41,6 +50,18 @@ module Mailid
 
       def is_archived?(conversation)
         archived.include?(conversation)
+      end
+
+      def add_to_trash(conversation)
+        TrashedConversation.create(user: self, conversation: conversation) unless is_trashed?(conversation)
+      end
+
+      def untrash(conversation)
+        TrashedConversation.where(user: self, conversation: conversation).destroy
+      end
+
+      def is_trashed?(conversation)
+        TrashedConversation.trashed_for(self).map(&:conversation).include?(conversation)
       end
 
       def unread_conversations
