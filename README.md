@@ -24,7 +24,7 @@ a.create_conversation(b, "subject", "body")
 
 ```ruby
 #user wants to reply to another user
-a.reply(conversation, receipt, "subject", "body")
+a.reply(conversation, "body")
 ```
 
 <h2>How to forward a conversation?</h2>
@@ -44,6 +44,16 @@ a.mark_as_archived(conversation)
 
 #user wants remove conversation from archive
 a.unarchive(conversation)
+```
+
+<h2>How to trash/untrash conversation?</h2>
+
+```ruby
+#user wants add conversation to trash
+a.add_to_trash(conversation)
+
+#user wants untrash conversation
+a.untrash(conversation)
 ```
 
 <h2>How can I get my conversations?</h2>
